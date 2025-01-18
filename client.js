@@ -18,11 +18,8 @@ console.log(getJsonSizeInKB(userData));
 
 function getJsonSizeInKB(json) {
     const jsonString = JSON.stringify(json);
-
     const sizeInBytes = new TextEncoder().encode(jsonString).length;
-
     const sizeInKB = sizeInBytes / 1024;
-
     return `${sizeInKB.toFixed(2)} kb`;
 }
 
