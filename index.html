@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CTC Cards</title>
+        <link rel="stylesheet" href="./style.css" />
+        <script src="./data.js"></script>
+        <script src="./client.js" defer></script>
+    </head>
+    <body>
+        <div id="background"></div>
+        <main>
+            <nav>
+                <h1>CTC Card Simulator</h1>
+                <div>
+                    <button id="btn-Pack Shop" class="active">Pack Shop</button>
+                    <button id="btn-Inventory" class="">Inventory</button>
+                    <button id="btn-Customize" class="">Customize</button>
+                    <button id="btn-Information" class="">Information</button>
+                </div>
+                <h1 id="money">$0</h1>
+            </nav>
+        </main>
+
+        <div id="scroller" style="right: 0%">
+            <section id="Store">
+                <h2>Pack Shop</h2>
+                <div>
+                    <div class="preset hidden">
+                        <h3>Pack Name</h3>
+                        <h3>$0</h3>
+                    </div>
+                </div>
+            </section>
+            <section id="Inventory">
+                <h2>Inventory</h2>
+            </section>
+            <section id="Customize">
+                <h2>Customize</h2>
+            </section>
+            <section id="Information">
+                <h2>Information</h2>
+            </section>
+        </div>
+        <div id="opener">
+            <section>
+                <div>
+                    
+                </div>
+                <h2>1/6</h2>
+            </section>
+        </div>
+    </body>
+</html>
