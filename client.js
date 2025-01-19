@@ -1,7 +1,5 @@
-
 let SavedM = localStorage.getItem("money");
-
-let MoneyVar = SavedM ? SavedM : 100;
+let MoneyVar = SavedM ? SavedM : 20;
 let MoneyLock = false;
 let CardStartX = 0;
 let CardStartY = 0;
@@ -9,18 +7,120 @@ let MaxDistance = 200;
 let CardDragging = false;
 let CardPercentageX = 0;
 let CardPercentageY = 0;
+let DefualtSellPrice = 1;
+let LockScreen = false;
 
-const CardsPerPack = 60;
+const CardsPerPack = 6;
 
 let Saved = localStorage.getItem("cards");
 let userData = Saved ? JSON.parse(Saved) : { Data: [] };
-console.log(getJsonSizeInKB(userData));
+
+function updateInventory() {
+    document.querySelector("#Inventory > div > div").innerHTML = "";
+    userData.Data.sort((a, b) => b.Price - a.Price);
+    let index = 0;
+    userData.Data.forEach((card) => {
+        let newCard = document.createElement("div");
+        let CardPre = document.createElement("h4");
+        let CardName = document.createElement("h4");
+        let CardSpecial = document.createElement("h4");
+        let CardPrice = document.createElement("h4");
+        newCard.appendChild(CardPre);
+        newCard.appendChild(CardName);
+        newCard.appendChild(CardSpecial);
+        newCard.appendChild(CardPrice);
+
+        newCard.className = "card-back";
+
+        newCard.setAttribute("card-index", index);
+        for (let [key, value] of Object.entries(card.Changes)) {
+            newCard.style[key] = value;
+        }
+
+        CardPre.style.color = card.PreColor;
+        CardPre.innerText = card.Pre;
+        CardName.innerText = card.Display;
+        CardSpecial.innerText = card.AltDisplay;
+        CardPrice.innerText = `$${card.Price.toFixed(2)}`;
+        document.querySelector("#Inventory > div > div").appendChild(newCard);
+        index++;
+    });
+    getJsonSizeInKB(userData);
+}
+
+function SellMode() {
+    LockScreen = true;
+    document
+        .getElementById("SellButton")
+        .removeEventListener("click", SellMode);
+    updateInventory();
+    document.getElementById("SellButton").innerText = "SELL SELECTED (0)";
+    let Indexes = [];
+    function addToList(e) {
+        let index = Number(e.target.getAttribute("card-index"));
+        Indexes[index] = !Indexes[index];
+        e.currentTarget.style.outline = Indexes[index] ? "8px solid red" : "";
+        let total = 0;
+        for (bool of Indexes) {
+            if (bool) total++;
+        }
+        document.getElementById(
+            "SellButton"
+        ).innerText = `SELL SELECTED (${total})`;
+    }
+
+    document
+        .querySelectorAll("#Inventory > div > div > div")
+        .forEach((element) => {
+            element.style.cursor = "pointer";
+            Indexes[Number(element.getAttribute("card-index"))] = false;
+            element.addEventListener("click", addToList);
+        });
+    function sellHandler() {
+        document
+            .getElementById("SellButton")
+            .removeEventListener("click", sellHandler);
+        document.getElementById("SellButton").innerText = "SELL MODE";
+        document
+            .querySelectorAll("#Inventory > div > div > div")
+            .forEach((element) => {
+                element.style.cursor = "default";
+                element.style.outline = "";
+                element.removeEventListener("click", addToList);
+            });
+
+        let NewUserData = { Data: [] };
+        for (let i = 0; i < userData.Data.length; i++) {
+            if (Indexes[i]) {
+                Money(-userData.Data[i].Price);
+            } else {
+                NewUserData.Data.push(userData.Data[i]);
+            }
+        }
+        userData = NewUserData;
+        updateInventory();
+        LockScreen = false;
+        document
+            .getElementById("SellButton")
+            .addEventListener("click", SellMode);
+        localStorage.setItem("cards", JSON.stringify(userData));
+    }
+    document
+        .getElementById("SellButton")
+        .addEventListener("click", sellHandler);
+}
+
+document.getElementById("SellButton").addEventListener("click", SellMode);
+
+updateInventory();
 
 function getJsonSizeInKB(json) {
     const jsonString = JSON.stringify(json);
     const sizeInBytes = new TextEncoder().encode(jsonString).length;
     const sizeInKB = sizeInBytes / 1024;
-    return `${sizeInKB.toFixed(2)} kb`;
+    const result = `${sizeInKB.toFixed(2)} kB`;
+    document.getElementById("fileSize").innerText = result;
+    return result;
 }
 
 function Money(x) {
@@ -28,8 +128,9 @@ function Money(x) {
     if (MoneyLock) return;
     if (x > MoneyVar) return false;
     MoneyVar -= x;
+    MoneyVar = MoneyVar.toFixed(2);
     document.getElementById("money").innerText = `$${MoneyVar}`;
-    localStorage.setItem('money',MoneyVar);
+    localStorage.setItem("money", MoneyVar);
     return true;
 }
 Money(0);
@@ -39,6 +140,7 @@ function CheckChance(chance) {
 }
 
 function SwapPage(name) {
+    if (LockScreen) return;
     let mult = 0;
     let found = false;
     Array.from(document.querySelector("nav div").children).forEach((button) => {
@@ -60,7 +162,8 @@ const cardTemplate = `
             <div class="card-back">
                 <h4>PRE</h4>
                 <h4>Card Name</h4>
-                <h4></h4>
+                <h4>Special</h4>
+                <h4>Price</h4>
             </div>
         </div>
     </div>
@@ -84,6 +187,7 @@ function formatDataString(str) {
 }
 
 function RollPack(PACK, Cards) {
+    Money(true);
     document.getElementById("opener").className = "active";
     let current = 1;
     function NextCard() {
@@ -111,23 +215,25 @@ function RollPack(PACK, Cards) {
             if (!card) continue;
             addedWeight += 1 / card.weight;
             if (random < addedWeight) {
-                picked = card.name;
+                picked = {
+                    Display: card.name,
+                    AltDisplay: "",
+                    Price: card.weight,
+                    Pre: "",
+                    PreColor: "#ffffff",
+                    Changes: {},
+                };
                 break;
             }
         }
-        picked = {
-            Display: picked,
-            AltDisplay: "",
-            Pre: "",
-            PreColor: "#ffffff",
-            Changes: {},
-        };
-
+        let multi = 1;
         let pickedNonShared = false;
         for (let chance of Object.values(GameData.Chances)) {
             if (!CheckChance(chance.Chance)) continue;
             if (chance.Shared == false && pickedNonShared == true) continue;
             if (chance.Shared == false) pickedNonShared = true;
+            picked.Price += chance.AddedValue;
+            multi += chance.Multiplier - 1;
             picked.Pre = chance.Display == "" ? picked.Pre : chance.Display;
             picked.PreColor =
                 chance.Display == "" ? picked.PreColor : chance.BaseColor;
@@ -140,6 +246,8 @@ function RollPack(PACK, Cards) {
                 );
             }
         }
+
+        picked.Price *= multi;
 
         userData.Data.push(picked);
 
@@ -158,8 +266,11 @@ function RollPack(PACK, Cards) {
             picked.PreColor;
         card.querySelector("div > .card-back h4:nth-child(2)").innerText =
             picked.Display;
-        card.querySelector("div > .card-back h4:last-child").innerText =
+        card.querySelector("div > .card-back h4:nth-child(3)").innerText =
             picked.AltDisplay;
+        card.querySelector(
+            "div > .card-back h4:last-child"
+        ).innerText = `$${picked.Price.toFixed(2)}`;
 
         innercard.addEventListener("mousedown", cardDragX);
         let XDone = false;
@@ -190,7 +301,9 @@ function RollPack(PACK, Cards) {
                 setTimeout(() => {
                     if (current > CardsPerPack) {
                         localStorage.setItem("cards", JSON.stringify(userData));
-                        console.log(getJsonSizeInKB(userData));
+                        document.getElementById("opener").className = "";
+                        updateInventory();
+                        Money(false);
                         return;
                     } else {
                         NextCard();

@@ -81,6 +81,12 @@ nav div button:hover {
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+nav div button:disabled {
+    border-bottom: none !important;
+    cursor: default !important;
+    color: rgb(104, 104, 104) !important;
+}
+
 nav div button.active {
     cursor: default;
     border-bottom: 1px solid white !important;
@@ -177,8 +183,8 @@ section {
 }
 
 .card {
-    width: 200px;
-    height: 300px;
+    width: 212px;
+    height: 312px;
     perspective: 1000px;
     cursor: pointer;
     transition: 500ms;
@@ -195,8 +201,8 @@ section {
 .card-back {
     position: absolute;
     padding: 10px;
-    width: calc(100% - 20px);
-    height: calc(100% - 20px);
+    width: calc(100% - 32px);
+    height: calc(100% - 32px);
     backface-visibility: hidden;
     display: flex;
     justify-content: center;
@@ -225,10 +231,18 @@ section {
     margin-right: 5px;
 }
 
-.card-back h4:last-child {
+.card-back h4:nth-child(3) {
     font-size: 12px;
     position: absolute;
     bottom: 10px;
+}
+
+.card-back h4:last-child {
+    font-size: 12px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    color: rgb(0, 255, 136);
 }
 
 .shown {
@@ -243,4 +257,85 @@ section {
 #opener section > h2 {
     position: absolute;
     bottom: 60px;
+}
+
+#Inventory > div {
+    width: 100%;
+    height: calc(100% - 100px);
+    overflow-x: visible;
+    position: relative;
+    mask-image: linear-gradient(
+        to all,
+        rgba(0, 0, 0, 1) 98%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 1) 98%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    mask-composite: exclude;
+}
+
+#Inventory > div > div {
+    padding: 15px;
+    overflow-y: scroll;
+    overflow-x: visible;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    align-items: start;
+}
+
+#Inventory > div > div::-webkit-scrollbar {
+    width: 4px;
+}
+
+#Inventory > div > div::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+#Inventory > div > div::-webkit-scrollbar-thumb {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+#fileSize {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-left: 20px;
+}
+
+#Inventory .card-back {
+    position: relative;
+    min-width: 180px;
+    max-width: 180px;
+    min-height: 280px;
+    max-height: 280px;
+    margin: 10px;
+    transform: rotateY(0deg);
+}
+
+
+#Inventory > button {
+    position: absolute;
+    border-radius: 8px;
+    background-color: rgb(255, 73, 73);
+    height: 30px;
+    top: 15px;
+    cursor: pointer;
+    left: calc(100% + 160px);
+    border: 0;
+    outline: 0;
+    text-wrap: nowrap;
+    font-weight: 700;
+    padding: 0 15px;
+    transition: 250ms;
+}
+
+#Inventory > button:hover {
+    box-shadow: 0px 0px 15px 1px rgb(255, 73, 73);
 }

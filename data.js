@@ -4,6 +4,8 @@ let GameData = {
             Display: "",
             AltDisplay: "",
             Chance: 5,
+            AddedValue: 1,
+            Multiplier: 1.2,
             Shared: true,
             BaseColor: "100%",
             Changes: {
@@ -11,9 +13,11 @@ let GameData = {
             },
         },
         Hexed: {
-            Display: "HEXED",
+            Display: "TUP",
             AltDisplay: "",
             Chance: 10,
+            AddedValue: 2,
+            Multiplier: 1.5,
             Shared: true,
             BaseColor: "#00ff84",
             Changes: {
@@ -24,6 +28,8 @@ let GameData = {
             Display: "",
             AltDisplay: "Grayscale",
             Chance: 50,
+            AddedValue: 10,
+            Multiplier: 2,
             Shared: false,
             BaseColor: "<RANDOM:1-255>",
             Changes: {
@@ -33,7 +39,9 @@ let GameData = {
         Universal: {
             Display: "",
             AltDisplay: "Universal",
+            AddedValue: 10,
             Chance: 100,
+            Multiplier: 10,
             Shared: false,
             BaseColor: "rgb(<RANDOM:1-255>, <RANDOM:1-255>, <RANDOM:1-255>)",
             Changes: {
@@ -92,14 +100,13 @@ let GameData = {
         ["Keagan Ziemann-Bell", 5],
         ["Mr. Martinez", 10],
         ["Mr. Luyk", 100],
-        
-        
+        ["WicketyOne", 1000],
     ],
     Packs: {
         AM2425: {
             Display: "24-25 AM",
             Image: "",
-            Price: 5,
+            Price: 10,
             Cards: [
                 "Mr. Luyk",
                 "Mr. Martinez",
@@ -127,12 +134,13 @@ let GameData = {
                 "Seth Woods",
                 "Adryann Cleveland",
                 "Xavier Ick",
+                "WicketyOne",
             ],
         },
         PM2425: {
             Display: "24-25 PM",
             Image: "",
-            Price: 5,
+            Price: 20,
             Cards: [
                 "Mr. Luyk",
                 "Mr. Martinez",
@@ -158,9 +166,10 @@ let GameData = {
                 "Keegan Ohlman",
                 "Alec Tackitt",
                 "Keagan Ziemann-Bell",
+                "WicketyOne",
             ],
         },
-        TEST: {
+        /*TEST: {
             Display: "TEST PACK",
             Image: "",
             Price: 1,
@@ -214,6 +223,6 @@ let GameData = {
                 "Alec Tackitt",
                 "Keagan Ziemann-Bell",
             ],
-        },
+        },*/
     },
 };
