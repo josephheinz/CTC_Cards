@@ -159,7 +159,7 @@ let GameData = {
         PM2425: {
             Display: "24-25 PM",
             Image: "",
-            Price: 20,
+            Price: 15,
             Cards: [
                 "Mr. Luyk",
                 "Mr. Martinez",
