@@ -67,7 +67,7 @@ function SellMode() {
     document.getElementById("SellButton").innerText = "SELL SELECTED (0)";
     let Indexes = [];
     function addToList(e) {
-        let index = Number(e.target.getAttribute("card-index"));
+        let index = Number(e.currentTarget.getAttribute("card-index"));
         Indexes[index] = !Indexes[index];
         e.currentTarget.style.outline = Indexes[index] ? "8px solid red" : "";
         let total = 0;
@@ -80,7 +80,7 @@ function SellMode() {
     }
 
     document
-        .querySelectorAll("#Inventory > div > div > div")
+        .querySelectorAll("#Inventory .card-back")
         .forEach((element) => {
             element.style.cursor = "pointer";
             Indexes[Number(element.getAttribute("card-index"))] = false;
@@ -92,7 +92,7 @@ function SellMode() {
             .removeEventListener("click", sellHandler);
         document.getElementById("SellButton").innerText = "SELL MODE";
         document
-            .querySelectorAll("#Inventory > div > div > div")
+            .querySelectorAll("#Inventory .card-back")
             .forEach((element) => {
                 element.style.cursor = "default";
                 element.style.outline = "";

@@ -119,7 +119,7 @@ let GameData = {
         ["Keagan Ziemann-Bell", 5],
         ["Mr. Martinez", 10],
         ["Mr. Luyk", 100],
-        ["WicketyOne", 1000],
+        ["The Sigma", 1000],
     ],
     Packs: {
         AM2425: {
@@ -153,7 +153,7 @@ let GameData = {
                 "Seth Woods",
                 "Adryann Cleveland",
                 "Xavier Ick",
-                "WicketyOne",
+                "The Sigma",
             ],
         },
         PM2425: {
@@ -185,7 +185,7 @@ let GameData = {
                 "Keegan Ohlman",
                 "Alec Tackitt",
                 "Keagan Ziemann-Bell",
-                "WicketyOne",
+                "The Sigma",
             ],
         },
         /*TEST: {
