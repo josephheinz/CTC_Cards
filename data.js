@@ -8,6 +8,7 @@ let GameData = {
             Multiplier: 1.2,
             Shared: true,
             BaseColor: "100%",
+            Pattern: "",
             Changes: {
                 textTransform: "uppercase"
             },
@@ -20,6 +21,7 @@ let GameData = {
             Multiplier: 1.5,
             Shared: true,
             BaseColor: "#00ff84",
+            Pattern: "",
             Changes: {
                 border: "6px solid <BASE>",
             },
@@ -32,19 +34,36 @@ let GameData = {
             Multiplier: 2,
             Shared: false,
             BaseColor: "<RANDOM:1-255>",
+            Pattern: "",
             Changes: {
                 border: "6px solid rgb(<BASE>, <BASE>, <BASE>)",
             },
         },
-        Universal: {
+        Unusual: {
             Display: "",
-            AltDisplay: "Universal",
+            AltDisplay: "Unusual",
             AddedValue: 10,
             Chance: 100,
             Multiplier: 10,
             Shared: false,
             BaseColor: "rgb(<RANDOM:1-255>, <RANDOM:1-255>, <RANDOM:1-255>)",
+            Pattern: "https://static.vecteezy.com/system/resources/thumbnails/048/234/565/small_2x/a-black-and-white-image-of-a-pattern-of-triangles-on-a-transparent-background-png.png",
             Changes: {
+                filter: "<BASE>",
+                border: "6px solid <BASE>",
+            },
+        },
+        Universal: {
+            Display: "",
+            AltDisplay: "Universal",
+            AddedValue: 25,
+            Chance: 500,
+            Multiplier: 25,
+            Shared: false,
+            BaseColor: "rgb(<RANDOM:1-255>, <RANDOM:1-255>, <RANDOM:1-255>)",
+            Pattern: "./UniversalPattern.png",
+            Changes: {
+                filter: "<BASE>",
                 border: "6px solid <BASE>",
                 boxShadow: "0px 0px 20px 5px <BASE>",
             },

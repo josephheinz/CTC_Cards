@@ -25,15 +25,24 @@ function updateInventory() {
         let CardName = document.createElement("h4");
         let CardSpecial = document.createElement("h4");
         let CardPrice = document.createElement("h4");
+        let CardPattern = document.createElement("div");
         newCard.appendChild(CardPre);
         newCard.appendChild(CardName);
         newCard.appendChild(CardSpecial);
         newCard.appendChild(CardPrice);
+        newCard.appendChild(CardPattern);
 
         newCard.className = "card-back";
 
         newCard.setAttribute("card-index", index);
         for (let [key, value] of Object.entries(card.Changes)) {
+            if (key == "filter") {
+                const filter = getAccurateFilter(value,1);
+                CardPattern.style.filter = filter
+                    .split("filter: ")[1]
+                    .split(";")[0];
+                continue;
+            }
             newCard.style[key] = value;
         }
 
@@ -42,6 +51,7 @@ function updateInventory() {
         CardName.innerText = card.Display;
         CardSpecial.innerText = card.AltDisplay;
         CardPrice.innerText = `$${card.Price.toFixed(2)}`;
+        CardPattern.style.backgroundImage = `url(${card.Pattern})`;
         document.querySelector("#Inventory > div > div").appendChild(newCard);
         index++;
     });
@@ -164,6 +174,7 @@ const cardTemplate = `
                 <h4>Card Name</h4>
                 <h4>Special</h4>
                 <h4>Price</h4>
+                <div></div>
             </div>
         </div>
     </div>
@@ -184,6 +195,13 @@ function formatDataString(str) {
         return Math.floor(Math.random() * (max - min + 1)) + Number(min);
     });
     return updatedStr;
+}
+
+function getAccurateFilter(value,attempts) {
+    const rgb = typeof value == "string" ? parseRgbString(value) : value;
+    const filter = new Solver(new Color(rgb[0], rgb[1], rgb[2])).solve();
+    if (attempts >= 20) console.log('MAX ATTEMPTS');
+    return attempts >= 20 ? filter.filter : filter.loss > 0.3 ? getAccurateFilter(rgb,attempts+1) : filter.filter;
 }
 
 function RollPack(PACK, Cards) {
@@ -220,6 +238,7 @@ function RollPack(PACK, Cards) {
                     AltDisplay: "",
                     Price: card.weight,
                     Pre: "",
+                    Pattern: "",
                     PreColor: "#ffffff",
                     Changes: {},
                 };
@@ -239,6 +258,8 @@ function RollPack(PACK, Cards) {
                 chance.Display == "" ? picked.PreColor : chance.BaseColor;
             picked.AltDisplay =
                 chance.AltDisplay == "" ? picked.AltDisplay : chance.AltDisplay;
+            picked.Pattern =
+                chance.Pattern == "" ? picked.Pattern : chance.Pattern;
             let basecolor = formatDataString(chance.BaseColor);
             for (let [key, value] of Object.entries(chance.Changes)) {
                 picked.Changes[key] = formatDataString(
@@ -257,6 +278,15 @@ function RollPack(PACK, Cards) {
         let card = document.querySelector("#opener section div > div");
         let innercard = card.querySelector("div");
         for (let [key, value] of Object.entries(picked.Changes)) {
+            if (key == "filter") {
+                const filter = getAccurateFilter(value,1);
+                card.querySelector("div > .card-back > div").style.filter =
+                    filter.split("filter: ")[1].split(";")[0];
+                card.querySelector(
+                    "div > .card-back > div"
+                ).style.backgroundImage = `url(${picked.Pattern})`;
+                continue;
+            }
             card.querySelector("div > .card-back").style[key] = value;
         }
         card.querySelector("div > .card-front h3").innerText = PACK;
@@ -269,7 +299,7 @@ function RollPack(PACK, Cards) {
         card.querySelector("div > .card-back h4:nth-child(3)").innerText =
             picked.AltDisplay;
         card.querySelector(
-            "div > .card-back h4:last-child"
+            "div > .card-back h4:nth-child(4)"
         ).innerText = `$${picked.Price.toFixed(2)}`;
 
         innercard.addEventListener("mousedown", cardDragX);
