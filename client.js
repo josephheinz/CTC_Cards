@@ -358,9 +358,10 @@ Object.values(GameData.Packs).forEach((pack) => {
     newStoreItem.querySelector("h3:last-child").innerText = `$${pack.Price}`;
     document.querySelector("#Store div").appendChild(newStoreItem);
     newStoreItem.addEventListener("click", () => {
-        Money(pack.Price);
-        Money(true);
-        RollPack(pack.Display, pack.Cards);
+        if (Money(pack.Price)) {
+            Money(true);
+            RollPack(pack.Display, pack.Cards);
+        }
     });
 });
 

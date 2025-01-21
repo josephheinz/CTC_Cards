@@ -70,6 +70,8 @@ let GameData = {
         },
     },
     Cards: [
+
+        // Software & Game Development AM
         ["Isaiah Cargill", 1],
         ["Jacob Carrell", 1],
         ["Nicholas Chum", 1],
@@ -95,6 +97,7 @@ let GameData = {
         ["Adryann Cleveland", 5],
         ["Xavier Ick", 5],
 
+        // Software & Game Development PM
         ["Dylan Bruner", 1],
         ["Andrew Creswick", 1],
         ["Joshua Fish", 1],
@@ -117,9 +120,14 @@ let GameData = {
         ["Keegan Ohlman", 5],
         ["Alec Tackitt", 5],
         ["Keagan Ziemann-Bell", 5],
+
+        // Software & Game Development Teachers
         ["Mr. Martinez", 10],
         ["Mr. Luyk", 100],
+
+        // Speical
         ["The Sigma", 1000],
+
     ],
     Packs: {
         AM2425: {
