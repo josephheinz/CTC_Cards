@@ -1,0 +1,15 @@
+{
+  "name": "ctc_cards",
+  "version": "1.0.0",
+  "description": "A fun card pulling game like pokemon cards!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1",
+    "express": "^4.21.2"
+  }
+}
