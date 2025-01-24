@@ -95,7 +95,7 @@ let GameData = {
         ["Whitney Wolf", 1],
         ["Seth Woods", 1],
         ["Adryann Cleveland", 5],
-        ["Xavier Ick", 5],
+        ["Xavier Ickes", 5],
 
         // Software & Game Development PM
         ["Dylan Bruner", 1],
@@ -160,7 +160,7 @@ let GameData = {
                 "Whitney Wolf",
                 "Seth Woods",
                 "Adryann Cleveland",
-                "Xavier Ick",
+                "Xavier Ickes",
                 "The Sigma",
             ],
         },
